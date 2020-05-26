@@ -1,11 +1,12 @@
-#include "vec2.hpp"
-#include "circle.hpp"
-#include "rect.hpp"
-#include "color.hpp"
 #include "window.hpp"
 #include <GLFW/glfw3.h>
 #include <utility>
 #include <cmath>
+#include "vec2.hpp"
+#include "circle.hpp"
+#include "rect.hpp"
+#include "color.hpp"
+
 #include <iostream>
 
 int main(int argc, char* argv[])
@@ -14,15 +15,10 @@ int main(int argc, char* argv[])
   Color red{ 1.0,0.0,0.0 };
   Color green{0.0, 1.0, 0.0};
   Color blue{ 0.0,0.0,1.0 };
-  Vec2 rec_1{ 350.0f,450.0f };
-  Vec2 rec_2{ 450.f,350.0f };
-  Vec2 rec_3 {250.0f,550.0f};
-  Vec2 rec_4 {450.0f,250.0f};
-  Rectangle rec(rec_1, rec_2, red);
-  Rectangle inside_rec(rec_3, rec_4, blue);
   Vec2 circle_c{400.0f, 400.0f};
-  Circle circ(circle_c, 50.0f, green);
-  Circle inside_circle(circle_c, 100.0f, blue);
+  Circle second(circle_c, 200.0f, green);
+  Circle minute(circle_c, 100.0f, blue);
+  Circle hour(circle_c, 50.0f, red);
   Vec2 mouseV = {0.0, 0.0};
   while (!win.should_close()) {
     if (win.get_key(GLFW_KEY_ESCAPE) == GLFW_PRESS) {
@@ -70,18 +66,9 @@ int main(int argc, char* argv[])
 
     //task stuff
 
-    mouseV = {win.mouse_position().first, win.mouse_position().second};
-
-    circ.draw(win);
-    rec.draw(win);
-
-    if (circ.is_inside(mouseV)) {
-		  inside_circle.draw(win,10.0f);
-	  }
-
-    if(rec.is_inside(mouseV)){
-      inside_rec.draw(win, 10.0f);
-    }
+    second.drawClock(win,t*360);
+    minute.drawClock(win,t*60);
+    hour.drawClock(win,t);
 
     win.update();
   }
