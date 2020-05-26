@@ -8,12 +8,15 @@ struct Vec2
     float x;
     float y;
     Vec2(float i = 0.0f, float j = 0.0f):x(i), y(j) {}
-};
+    Vec2(Vec2& temp) {
+		x = temp.x;
+		y = temp.y;
+	};
 
-    Vec2 operator+( Vec2 const& u , Vec2 const& v );
-    Vec2 operator-( Vec2 const& u , Vec2 const& v );
-    Vec2 operator*( Vec2 const& v , float s );
-    Vec2 operator*( float s , Vec2 const& v );
-    Vec2 operator/( Vec2 const& v , float s );   
+    Vec2& operator+=( Vec2 const& v );
+    Vec2& operator-=( Vec2 const& v );
+    Vec2& operator*=( float s );
+    Vec2& operator/=( float s ); 
+};     
 
 # endif // VEC2_HPP
