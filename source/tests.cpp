@@ -27,7 +27,7 @@ TEST_CASE("test_vec_init", "[vec2]")
 
 
 
-TEST_CASE("test_vec_add", "[vec2]"){
+TEST_CASE("test_vec_add_modify", "[vec2]"){
   Vec2 vec_prove_one_zero{};
 	vec_prove_one_zero.operator+=(vec_one_zero);
 	REQUIRE(vec_prove_one_zero.x == 1.0f); //Test 0+1=1
@@ -46,7 +46,7 @@ TEST_CASE("test_vec_add", "[vec2]"){
 }
 
 
-TEST_CASE("test_vec_subtract", "[vec2]"){
+TEST_CASE("test_vec_subtract_modify", "[vec2]"){
   Vec2 vec_prove_zero_zero{1.0f,1.0f};
 	vec_prove_zero_zero.operator-=(vec_one_one);
 	REQUIRE(vec_prove_zero_zero.x == 0.0f); //Test 1-1=0
@@ -65,7 +65,7 @@ TEST_CASE("test_vec_subtract", "[vec2]"){
 	REQUIRE(vec_prove_one_one.y == 1.0f); //Test 2-2+1=1
 }
 
-TEST_CASE("test_vec_multiply", "[vec2]"){
+TEST_CASE("test_vec_multiply_modify", "[vec2]"){
   Vec2 vec_prove_tenFive_threeFive{7.0f,2.0f};
 	vec_prove_tenFive_threeFive.operator*=(1.5f);
 	REQUIRE(vec_prove_tenFive_threeFive.x == 10.5f); //Test 7*1.5=10.5
@@ -82,7 +82,7 @@ TEST_CASE("test_vec_multiply", "[vec2]"){
 	REQUIRE(vec_prove_fourOFive_sixSevenFive.y == 6.75f); //Test 5*1.35=6.75
 }
 
-TEST_CASE("test_vec_divide", "[vec2]"){
+TEST_CASE("test_vec_divide_modify", "[vec2]"){
   Vec2 vec_prove_five_zeroSix{ 25.0f,3.0f };
 	vec_prove_five_zeroSix.operator/=(5.0f);
 	REQUIRE(vec_prove_five_zeroSix.x == 5.0f); //Test 25/5=5
@@ -99,8 +99,58 @@ TEST_CASE("test_vec_divide", "[vec2]"){
 	REQUIRE(vec_prove_error_divZero.y == 1.0f);
 }
 
+TEST_CASE("test_vec_add", "[vec2]"){
+  Vec2 vec_prove_add_two_two{operator+(vec_one_one, vec_one_one) };
+	REQUIRE(vec_prove_add_two_two.x == 2.0f); //1+1=2
+	REQUIRE(vec_prove_add_two_two.y == 2.0f); //1+1=2
 
+	Vec2 vec_prove_add_nSeven_one{ operator+(vec_nFour_nFour,vec_nThree_five) };
+	REQUIRE(vec_prove_add_nSeven_one.x == -7.0f); //-4+-3=-7
+	REQUIRE(vec_prove_add_nSeven_one.y == 1.0f); //-4+5=1
 
+	Vec2 vec_prove_add_seven_one{ operator+(vec_seven_one,vec_zero_zero) };
+	REQUIRE(vec_prove_add_seven_one.x == 7.0f); //7+0=7
+	REQUIRE(vec_prove_add_seven_one.y == 1.0f); //1+0=1
+}
+TEST_CASE("test_vec_subtract", "[vec2]"){
+  Vec2 vec_prove_sub_zero_zero{ operator-(vec_one_one,vec_one_one) };
+	REQUIRE(vec_prove_sub_zero_zero.x == 0.0f); //1-1=0
+	REQUIRE(vec_prove_sub_zero_zero.y == 0.0f); //1-1=0
+
+	Vec2 vec_prove_sub_two_nOne{ operator-(vec_seven_one,vec_five_two) };
+	REQUIRE(vec_prove_sub_two_nOne.x == 2.0f); //7-5=2
+	REQUIRE(vec_prove_sub_two_nOne.y == -1.0f); //1-2=-1
+
+	Vec2 vec_prove_sub_nOne_nNine{ operator-(vec_nFour_nFour,vec_nThree_five) };
+	REQUIRE(vec_prove_sub_nOne_nNine.x == -1.0f); //-4--3=-1
+	REQUIRE(vec_prove_sub_nOne_nNine.y == -9.0f); //-4-5=-9
+}
+TEST_CASE("test_vec_multiply", "[vec2]"){
+  Vec2 vec_prove_mul_two_two{ operator*(vec_one_one,2.0) };
+	REQUIRE(vec_prove_mul_two_two.x == 2.0f); //1*2=2
+	REQUIRE(vec_prove_mul_two_two.y == 2.0f); //1*2=2
+
+	Vec2 vec_prove_mul_one_zeroFour{ operator*(vec_five_two,0.2f) };
+	REQUIRE(vec_prove_mul_one_zeroFour.x == 1.0f); //5*0.2=1
+	REQUIRE(vec_prove_mul_one_zeroFour.y == 0.4f); //2*0.2=0.4
+
+	Vec2 vec_prove_mul_twoFourFive_zeroThreeFive{ operator*(0.35f,vec_seven_one) };
+	REQUIRE(vec_prove_mul_twoFourFive_zeroThreeFive.x == 2.45f); //7*0.35=2.45
+	REQUIRE(vec_prove_mul_twoFourFive_zeroThreeFive.y == 0.35f); //1*0.35
+}
+TEST_CASE("test_vec_divide", "[vec2]"){
+  Vec2 vec_prove_div_threeFive_zeroFive{ operator/(vec_seven_one,2.0f) };
+	REQUIRE(vec_prove_div_threeFive_zeroFive.x == 3.5f); //7/2=3.5
+	REQUIRE(vec_prove_div_threeFive_zeroFive.y == 0.5f); //1/2=0.5
+
+	Vec2 vec_prove_div_ten_four{ operator/(vec_five_two, 0.5f) };
+	REQUIRE(vec_prove_div_ten_four.x == 10.0f); //5/0.5=10
+	REQUIRE(vec_prove_div_ten_four.y == 4.0f); //2/0.5=4
+
+	Vec2 vec_prove_div_nOneFive_woFive{ operator/(vec_nThree_five,2.0f) };
+	REQUIRE(vec_prove_div_nOneFive_woFive.x == -1.5f); //5/0.5=10
+	REQUIRE(vec_prove_div_nOneFive_woFive.y == 2.5f); //2/0.5=4
+}
 
 int main(int argc, char *argv[])
 {
